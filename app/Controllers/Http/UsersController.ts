@@ -36,6 +36,14 @@ export default class UsersController {
 		})
 	}
 
+	public async listDoctors({ }: HttpContextContract) {
+		return await User.query()
+			.where('role', 'doctor')
+			.select(['id', 'name', 'email', 'phone', 'active', 'created_at'])
+			.preload('details')
+
+	}
+
 	public async show_doctor({ params:{id} }: HttpContextContract) {
 		return await User.query()
 			.where('id', id)
@@ -69,5 +77,54 @@ export default class UsersController {
 		return user.related('requests').query().where('status', 'rejected')
 			.preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
 	}
+
+	/* //find user which role is admin
+	public async findAdmin({ auth }: HttpContextContract) {
+		const user = await auth.use('api').authenticate()
+		return user.related('details').query().where('role', 'admin')
+	} */
+
+	/* //find all bookings of a user
+	public async findBookings({ auth }: HttpContextContract) {
+		const user = await auth.use('api').authenticate()
+		return user.related('bookings').query().preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
+	}
+
+	//find all booking requests of a user
+	public async findBookingRequests({ auth }: HttpContextContract) {
+		const user = await auth.use('api').authenticate()
+		return user.related('booking_requests').query().preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
+	}
+
+	//find all requests of a user
+	public async findRequests({ auth }: HttpContextContract) {
+		const user = await auth.use('api').authenticate()
+		return user.related('requests').query().preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
+	}
+
+
+	// github copilot
+
+	//find all user accepted requests
+	public async findAcceptedRequests({ auth }: HttpContextContract) {
+		const user = await auth.use('api').authenticate()
+		return user.related('requests').query().where('status', 'accepted')
+			.preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
+	}
+
+	//find all user rejected requests
+	public async findRejectedRequests({ auth }: HttpContextContract) {
+		const user = await auth.use('api').authenticate()
+		return user.related('requests').query().where('status', 'rejected')
+			.preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
+	}
+
+	// find all user pending requests
+	public async findPendingRequests({ auth }: HttpContextContract) {
+		const user = await auth.use('api').authenticate()
+		return user.related('requests').query().where('status', 'requested')
+			.preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
+	} */
+
 
 }

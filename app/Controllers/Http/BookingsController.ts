@@ -109,4 +109,5 @@ export default class BookingsController {
   }
 
 
+
 }

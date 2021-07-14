@@ -60,6 +60,7 @@ Route.group(() => {
   }).prefix('doctor')
 
   Route.group(() => {
+    Route.get('doctors', 'UsersController.listDoctors')
     Route.get('my_requests', 'UsersController.requests')
     Route.get('my_requests/accepted', 'UsersController.requestsAccepted')
     Route.get('my_requests/pending', 'UsersController.requestsPending')
