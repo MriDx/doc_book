@@ -36,4 +36,38 @@ export default class UsersController {
 		})
 	}
 
+	public async show_doctor({ params:{id} }: HttpContextContract) {
+		return await User.query()
+			.where('id', id)
+			.where('role', 'doctor')
+			.preload('details')
+			.select(['id', 'name', 'phone', 'email'])
+			.firstOrFail()
+
+	}
+
+
+	public async requests({ auth }: HttpContextContract) {
+		const user = await auth.use('api').authenticate()
+		return user.related('requests').query().preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
+	}
+
+	public async requestsPending({ auth }: HttpContextContract) {
+		const user = await auth.use('api').authenticate()
+		return user.related('requests').query().where('status', 'requested')
+			.preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
+	}
+
+	public async requestsAccepted({ auth }: HttpContextContract) {
+		const user = await auth.use('api').authenticate()
+		return user.related('requests').query().where('status', 'accepted')
+			.preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
+	}
+
+	public async requestsRejected({ auth }: HttpContextContract) {
+		const user = await auth.use('api').authenticate()
+		return user.related('requests').query().where('status', 'rejected')
+			.preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
+	}
+
 }

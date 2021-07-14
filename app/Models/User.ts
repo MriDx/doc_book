@@ -65,7 +65,8 @@ export default class User extends BaseModel {
   public details: HasOne<typeof UserDetail>
 
   @hasMany(() => Booking, {
-    foreignKey: 'requested_by'
+    foreignKey: 'requested_by',
+    localKey: 'id'
   })
   public requests: HasMany<typeof Booking>
 

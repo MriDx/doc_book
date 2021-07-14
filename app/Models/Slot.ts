@@ -61,7 +61,8 @@ export default class Slot extends BaseModel {
 
 
   @hasMany(() => Booking, {
-    foreignKey: 'slot_id'
+    foreignKey: 'slot_id',
+    localKey: 'id'
   })
   public bookings: HasMany<typeof Booking>
 

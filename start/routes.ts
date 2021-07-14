@@ -37,10 +37,12 @@ Route.group(() => {
     Route.post('add', 'SlotsController.add').middleware(['adminordoc'])
     Route.get('/', 'SlotsController.all').middleware(['auth'])
     Route.get('/my', 'SlotsController.my_slots').middleware(['doctor'])
+    Route.get('/my/page/:page_id', 'SlotsController.my_slots_paginated').middleware(['doctor'])
 
     Route.get('requests', 'BookingsController.requests').middleware(['admin'])
 
-    Route.post('action', 'BookingsController.action').middleware(['doctor'])
+    Route.post('action/accept', 'BookingsController.actionAccept').middleware(['doctor'])
+    Route.post('action/reject', 'BookingsController.actionReject').middleware(['doctor'])
 
     Route.post('/:request_id/action', 'BookingsController.admin_action').middleware(['admin'])
 
@@ -51,7 +53,7 @@ Route.group(() => {
 
     Route.get('/:id/slots', 'SlotsController.slot_by_doc').middleware(['auth'])
 
-    Route.get('/:id', 'UsersController.show_doctor').middleware['auth']
+    Route.get('/:id', 'UsersController.show_doctor').middleware(['auth'])
 
     Route.post('/:id/book', 'SlotsController.book').middleware(['auth'])
 
@@ -59,6 +61,9 @@ Route.group(() => {
 
   Route.group(() => {
     Route.get('my_requests', 'UsersController.requests')
+    Route.get('my_requests/accepted', 'UsersController.requestsAccepted')
+    Route.get('my_requests/pending', 'UsersController.requestsPending')
+    Route.get('my_requests/rejected', 'UsersController.requestsRejected')
     Route.post('my_requests/cancel', 'BookingsController.user_cancel')
   }).middleware(['auth'])
 
