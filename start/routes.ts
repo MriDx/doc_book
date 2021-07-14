@@ -55,7 +55,7 @@ Route.group(() => {
 
     Route.get('/:id', 'UsersController.show_doctor').middleware(['auth'])
 
-    Route.post('/:id/book', 'SlotsController.book').middleware(['auth'])
+    Route.post('/:slot_id/book', 'SlotsController.book').middleware(['auth'])
 
   }).prefix('doctor')
 
