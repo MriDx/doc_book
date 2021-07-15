@@ -37,6 +37,7 @@ Route.group(() => {
     Route.post('add', 'SlotsController.add').middleware(['adminordoc'])
     Route.get('/', 'SlotsController.all').middleware(['auth'])
     Route.get('/my', 'SlotsController.my_slots').middleware(['doctor'])
+    Route.get('/:id/requests', 'SlotsController.requestsBySlot').middleware(['doctor'])
     Route.get('/my/page/:page_id', 'SlotsController.my_slots_paginated').middleware(['doctor'])
 
     Route.get('requests', 'BookingsController.requests').middleware(['admin'])

@@ -49,30 +49,34 @@ export default class SlotsController {
 
   public async my_slots({auth}: HttpContextContract) {
     const user = await auth.use('api').authenticate()
-    return user.related('slots').query().preload('bookings')
+    return await user.related('slots').query()
+      .preload('bookings', (b) => b.preload('requested_user', (u) => u.select(['id', 'name', 'phone', 'email'])))
   }
 
   public async my_slots_paginated({ }: HttpContextContract) {
 
   }
 
+  public async requestsBySlot({ params: { id } }: HttpContextContract) {
+    return await (await Slot.findByOrFail('id', id))
+      .related('bookings').query()
+      .preload('requested_user', (u) => u.select(['id', 'name', 'phone', 'email']))
+
+  }
+
+
   public async book({  auth, params: {slot_id}, response }: HttpContextContract) {
     const slot = await Slot.findByOrFail('id', slot_id)
     const user = await auth.use('api').authenticate()
-
-
 
     if (slot.capacity <= slot.current_filled) {
       return response.status(422).json({ status: 'failed', message: 'slot already filled !' })
     }
 
-
    await user.related('requests').create({
       slot_id: slot.id
    })
-
     return response.json({ status: 'success'})
-
   }
 
 
