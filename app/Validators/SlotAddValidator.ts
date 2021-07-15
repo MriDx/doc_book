@@ -26,22 +26,22 @@ export default class SlotAddValidator {
 	 */
 	public schema = schema.create({
 		'start_time': schema.date({
-			format: 'yyyy-mm-dd h:m:s'
+			format: 'yyyy-MM-dd h:m:s'
 		}, [
 			rules.required()
 		]),
 		'end_time': schema.date({
-			format: 'yyyy-mm-dd h:m:s'
+			format: 'yyyy-MM-dd h:m:s'
 		}, [
 			rules.required()
 		]),
 		'booking_start_time': schema.date({
-			format: 'yyyy-mm-dd h:m:s'
+			format: 'yyyy-MM-dd h:m:s'
 		}, [
 			rules.required()
 		]),
 		'booking_end_time': schema.date({
-			format: 'yyyy-mm-dd h:m:s'
+			format: 'yyyy-MM-dd h:m:s'
 		}, [
 			rules.required()
 		]),
