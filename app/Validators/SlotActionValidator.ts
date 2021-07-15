@@ -2,8 +2,8 @@ import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class SlotActionValidator {
-  constructor (protected ctx: HttpContextContract) {
-  }
+	constructor(protected ctx: HttpContextContract) {
+	}
 
 	/*
 	 * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
@@ -27,9 +27,10 @@ export default class SlotActionValidator {
 	public schema = schema.create({
 		'request_id': schema.number([
 			rules.required(),
-			rules.exists({column: 'id', table: 'bookings'})
-	  ])
-  })
+			rules.exists({ column: 'id', table: 'bookings' })
+		]),
+		'reason': schema.string.optional({ trim: true })
+	})
 
 	/**
 	 * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -42,5 +43,5 @@ export default class SlotActionValidator {
 	 * }
 	 *
 	 */
-  public messages = {}
+	public messages = {}
 }

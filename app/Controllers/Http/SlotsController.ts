@@ -2,27 +2,28 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Slot from 'App/Models/Slot'
 import SlotAddValidator from 'App/Validators/SlotAddValidator'
 import User from 'App/Models/User'
+import Booking from 'App/Models/Booking'
 
 export default class SlotsController {
-  public async index ({}: HttpContextContract) {
+  public async index({ }: HttpContextContract) {
   }
 
-  public async create ({}: HttpContextContract) {
+  public async create({ }: HttpContextContract) {
   }
 
-  public async store ({}: HttpContextContract) {
+  public async store({ }: HttpContextContract) {
   }
 
-  public async show ({}: HttpContextContract) {
+  public async show({ }: HttpContextContract) {
   }
 
-  public async edit ({}: HttpContextContract) {
+  public async edit({ }: HttpContextContract) {
   }
 
-  public async update ({}: HttpContextContract) {
+  public async update({ }: HttpContextContract) {
   }
 
-  public async destroy ({}: HttpContextContract) {
+  public async destroy({ }: HttpContextContract) {
   }
 
   public async add({ request, auth, response }: HttpContextContract) {
@@ -30,7 +31,7 @@ export default class SlotsController {
     //return data
     const user = await auth.use('api').authenticate()
     await user.related('slots').create(data)
-    return response.json({status: 'success'})
+    return response.json({ status: 'success' })
   }
 
   public async all({ }: HttpContextContract) {
@@ -48,7 +49,7 @@ export default class SlotsController {
       .orderBy('start_time', 'asc')
   }
 
-  public async my_slots({auth}: HttpContextContract) {
+  public async my_slots({ auth }: HttpContextContract) {
     const user = await auth.use('api').authenticate()
     return await user.related('slots').query()
       .preload('bookings', (b) => b.preload('requested_user', (u) => u.select(['id', 'name', 'phone', 'email'])))
@@ -66,18 +67,29 @@ export default class SlotsController {
   }
 
 
-  public async book({  auth, params: {slot_id}, response }: HttpContextContract) {
+  public async book({ auth, params: { slot_id }, response }: HttpContextContract) {
     const slot = await Slot.findByOrFail('id', slot_id)
     const user = await auth.use('api').authenticate()
+
+    let bookingData = await Booking.query()
+      .where('requested_by', user.id)
+      .where('slot_id', slot_id)
+      .first()
+
+
+    if (bookingData != null)
+      return response.json({ status: 'success', message: 'already requested' })
 
     if (slot.capacity <= slot.current_filled) {
       return response.status(422).json({ status: 'failed', message: 'slot already filled !' })
     }
 
-   await user.related('requests').create({
+    await user.related('requests').updateOrCreate({}, {
       slot_id: slot.id
-   })
-    return response.json({ status: 'success'})
+    })
+    return response.json({ status: 'success' })
+
+
   }
 
 
