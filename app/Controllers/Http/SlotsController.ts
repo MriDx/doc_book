@@ -27,7 +27,7 @@ export default class SlotsController {
 
   public async add({ request, auth, response }: HttpContextContract) {
     const data = await request.validate(SlotAddValidator)
-    return data
+    //return data
     const user = await auth.use('api').authenticate()
     await user.related('slots').create(data)
     return response.json({status: 'success'})
