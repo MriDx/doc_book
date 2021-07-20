@@ -1,11 +1,9 @@
- import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
 import LoginValidator from 'App/Validators/LoginValidator';
 import RegisterValidator from '../../Validators/RegisterValidator';
 
 export default class UsersController {
-
-
 
 	public async register({ request, response }: HttpContextContract) {
 
@@ -44,7 +42,7 @@ export default class UsersController {
 
 	}
 
-	public async show_doctor({ params:{id} }: HttpContextContract) {
+	public async show_doctor({ params: { id } }: HttpContextContract) {
 		return await User.query()
 			.where('id', id)
 			.where('role', 'doctor')
@@ -57,24 +55,26 @@ export default class UsersController {
 
 	public async requests({ auth }: HttpContextContract) {
 		const user = await auth.use('api').authenticate()
-		return user.related('requests').query().preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
+		return await user.related('requests').query()
+			.preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
 	}
 
 	public async requestsPending({ auth }: HttpContextContract) {
 		const user = await auth.use('api').authenticate()
-		return user.related('requests').query().where('status', 'requested')
+		return await user.related('requests').query().where('status', 'requested')
 			.preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
 	}
 
 	public async requestsAccepted({ auth }: HttpContextContract) {
 		const user = await auth.use('api').authenticate()
-		return user.related('requests').query().where('status', 'accepted')
+		return await user.related('requests').query().where('status', 'accepted')
+			//.preload('slot')
 			.preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
 	}
 
 	public async requestsRejected({ auth }: HttpContextContract) {
 		const user = await auth.use('api').authenticate()
-		return user.related('requests').query().where('status', 'rejected')
+		return await user.related('requests').query().where('status', 'rejected')
 			.preload('slot', (b) => b.preload('associated_to', (b) => b.select(['id', 'name', 'phone', 'email'])))
 	}
 

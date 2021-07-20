@@ -3,6 +3,7 @@ import Slot from 'App/Models/Slot'
 import SlotAddValidator from 'App/Validators/SlotAddValidator'
 import User from 'App/Models/User'
 import Booking from 'App/Models/Booking'
+import axios from 'axios'
 
 export default class SlotsController {
   public async index({ }: HttpContextContract) {
@@ -87,9 +88,33 @@ export default class SlotsController {
     await user.related('requests').updateOrCreate({}, {
       slot_id: slot.id
     })
+
+    const d = {
+      title: 'Slot booking received !',
+      body: ` You received a new slot booking request against slot id - ${slot.slot_uid}`
+    }
+    await this.sendNotification({
+      to: `/topics/${slot.associate_id}`,
+      notification: d,
+      data: d
+    })
     return response.json({ status: 'success' })
 
 
+  }
+
+
+  private async sendNotification(data) {
+    let d = await axios({
+      method: 'post',
+      url: 'https://fcm.googleapis.com/fcm/send',
+      data: data,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'key=AAAAqZEIptE:APA91bFBtnl1y53_1zLBYArz8P9NC981s3D1n7qp9-X_AASL4lW18prDrE0PUxnNoZ96gj7m4qKoUgMEgFa7SdLBKF8x14jFzV4TNtFat_IihyCnEZBX6ZV-E57WXtvN7JC0wwuo4icN'
+      }
+    })
+    console.log(d)
   }
 
 

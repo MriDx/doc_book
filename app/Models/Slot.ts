@@ -55,7 +55,8 @@ export default class Slot extends BaseModel {
   }
 
   @belongsTo(() => User, {
-    foreignKey: 'id'
+    foreignKey: 'associate_id',
+    localKey: 'id'
   })
   public associated_to: BelongsTo<typeof User>
 
