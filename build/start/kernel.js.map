@@ -1,0 +1,1 @@
+{"version":3,"file":"kernel.js","sourceRoot":"","sources":["../../start/kernel.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;AAWA,sFAA4C;AAW5C,gBAAM,CAAC,UAAU,CAAC,QAAQ,CAAC;IACzB,GAAG,EAAE,oGAAsC;IAC3C,2BAA2B;CAC5B,CAAC,CAAA;AAkBF,gBAAM,CAAC,UAAU,CAAC,aAAa,CAAC;IAC9B,IAAI,EAAE,qBAAqB;IAC3B,KAAK,EAAE,sBAAsB;IAC7B,UAAU,EAAE,8BAA8B;IAC1C,MAAM,EAAE,uBAAuB;CAChC,CAAC,CAAA"}
