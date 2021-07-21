@@ -1,4 +1,5 @@
-import { LucidModel } from '@ioc:Adonis/Lucid/Model'
+
+import { LucidModel } from '@ioc:Adonis/Lucid/Orm'
 import slugify from '@slynova/slug'
 
 export default class Slug {
