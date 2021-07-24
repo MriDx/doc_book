@@ -91,7 +91,7 @@ export default class SlotsController {
 
     const d = {
       title: 'Slot booking received !',
-      body: ` You received a new slot booking request against slot id - ${slot.slot_uid}`
+      body: ` You received a new slot booking request against slot id - ${slot.id}`
     }
     await this.sendNotification({
       to: `/topics/${slot.associate_id}`,
