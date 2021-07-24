@@ -85,7 +85,7 @@ export default class SlotsController {
       return response.status(422).json({ status: 'failed', message: 'slot already filled !' })
     }
 
-    await user.related('requests').updateOrCreate({}, {
+    await user.related('requests').create({
       slot_id: slot.id
     })
 
