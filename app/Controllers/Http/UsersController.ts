@@ -127,4 +127,12 @@ export default class UsersController {
 	} */
 
 
+	public async registerDoctor({ request, response }: HttpContextContract) {
+		const data = await request.validate(RegisterValidator)
+		Object.assign(data, { role: 'doctor' })
+		await User.create(data)
+		return response.status(200).json({ status: 'success' })
+	}
+
+
 }

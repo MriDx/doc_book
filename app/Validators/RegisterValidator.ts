@@ -2,8 +2,8 @@ import { rules, schema } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class RegisterValidator {
-  constructor (protected ctx: HttpContextContract) {
-  }
+	constructor(protected ctx: HttpContextContract) {
+	}
 
 	/*
 	 * Define schema to validate the "shape", "type", "formatting" and "integrity" of data.
@@ -29,19 +29,19 @@ export default class RegisterValidator {
 			rules.required()
 		]),
 		'email': schema.string({ trim: true }, [
-			rules.requiredIfNotExists('phone'),
+			rules.required(),
 			rules.email(),
-			rules.unique({column: 'email', table: 'users'})
+			rules.unique({ column: 'email', table: 'users' })
 		]),
 		'phone': schema.string({ trim: true }, [
-			rules.requiredIfNotExists('email'),
+			rules.required(),
 			rules.mobile({ strict: false }),
 			rules.unique({ column: 'phone', table: 'users' })
 		]),
 		'password': schema.string({ trim: true }, [
 			rules.required()
 		])
-  })
+	})
 
 	/**
 	 * Custom messages for validation failures. You can make use of dot notation `(.)`
@@ -54,5 +54,5 @@ export default class RegisterValidator {
 	 * }
 	 *
 	 */
-  public messages = {}
+	public messages = {}
 }

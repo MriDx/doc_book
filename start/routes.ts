@@ -58,6 +58,8 @@ Route.group(() => {
 
     Route.post('/:slot_id/book', 'SlotsController.book').middleware(['auth'])
 
+    Route.post('/register', 'UsersController.registerDoctor').middleware(['admin'])
+
   }).prefix('doctor')
 
   Route.group(() => {
