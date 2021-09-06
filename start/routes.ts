@@ -78,8 +78,9 @@ Route.group(() => {
 
 }).prefix('api/v1')
 
+
 Route.group(() => {
   Route.get('/', ({ response, subdomains }: HttpContextContract) => {
     return response.json({ status: subdomains.subdomain})
   })
-}).domain(':subdomain.doc-book.herokuapp.com')
+}).domain(':subdomain')
