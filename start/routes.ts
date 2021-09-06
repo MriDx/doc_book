@@ -19,6 +19,7 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
 
 Route.get('/', async () => {
   return { hello: 'world' }
@@ -76,3 +77,9 @@ Route.group(() => {
 
 
 }).prefix('api/v1')
+
+Route.group(() => {
+  Route.get('/', ({ response, subdomains }: HttpContextContract) => {
+    return response.json({ status: subdomains.subdomain})
+  })
+}).domain(':subdomain')
